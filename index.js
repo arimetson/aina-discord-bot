@@ -1,10 +1,14 @@
-const aoijs = require("aoi.js");
-const bot = new aoijs.AoiClient({
-  token: process.env.Token,
-  prefix: "!",
-  intents: ["GUILDS", "GUILD_MESSAGES"],
-  mobilePlatform: false,
+const Eris = require("eris");
+const keep_alive = require('./keep_alive.js')
+
+// Replace TOKEN with your bot account's token
+const bot = new Eris(process.env.token);
+
+bot.on("error", (err) => {
+  console.error(err); // or your preferred logger
 });
+
+bot.connect(); // Get the bot to connect to Discord
 
 //status
 bot.status({
@@ -13,37 +17,3 @@ bot.status({
   url: "https://www.youtube.com/c/BeingYT",
 });
 //Events
-bot.onMessage();
-
-//Command Example (ping)
-const loader = new aoijs.LoadCommands(bot);
-loader.load(bot.cmd, "./commands/");
-
-//Chat bot main command
-// bot.command({
-//   name: "$alwaysExecute",
-//   category: "Command Support",
-//   code: `
-//   $reply[$messageID;yes]
-//   $httpRequest[https://api.udit.tk/api/chatbot?message=$message&name=Disco&gender=Male&user=$authorId;GET;;message]
-//   $botTyping
-//   $cooldown[2s;{newEmbed:{description:\:_\: Don't send messages to fast, you can break me by doing it}{color:RED}}]
-
-//   $onlyIf[$checkContains[$message;@everyone;@here]==false;{newEmbed:{description:\:_\: I don't disturb people!}{color:#ff0000}}]
-
-//   $onlyForChannels[$getServerVar[chatbotChannel];]
-
-//   $onlyIf[$getServerVar[chatbotChannel]!=;]
-//   $suppressErrors
-//   `,
-// });
-bot.variables({
-  money: 0,
-  chatbotChannel: "",
-});
-
-const keepAlive = require("./server");
-
-
-
-keepAlive();
